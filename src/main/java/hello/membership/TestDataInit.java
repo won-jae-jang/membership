@@ -1,5 +1,6 @@
 package hello.membership;
 
+import hello.membership.domain.Board;
 import hello.membership.domain.Member;
 import hello.membership.repository.MemberRepository;
 import jakarta.annotation.PostConstruct;
@@ -22,5 +23,9 @@ public class TestDataInit {
         member.setUsername("test");
         member.setPassword("test!");
         memberRepository.save(member);
+
+        Board board = new Board();
+        board.setTitle("board-title");
+        board.setContent("board-content");
     }
 }

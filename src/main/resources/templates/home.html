@@ -1,140 +1,128 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>게시판</title>
-
-    <style>
-        h2 {
-          font-weight: border;
-        }
-        .hr1 {
-          border: 0;
-          height: 2px;
-          background: #d3d3d3;
-        }
-        .grey {
-          color: #727272;
-        }
-        #strong {
-          font-weight: 900;
-        }
-
-        table {
-          width: 100%;
-          border-top: 1px solid #d3d3d3;
-          border-collapse: collapse;
-        }
-        th {
-          background-color: #d3d3d3;
-          border-top: 3px solid #727272;
-        }
-        th,
-        td {
-          border-bottom: 1px solid #d3d3d3;
-          padding: 10px;
-        }
-
-        .greylist {
-          width: 50px;
-          height: 30px;
-          font-weight: 900;
-          color: white;
-          text-align: center;
-          background: grey;
-          border: solid 2px white;
-          border-radius: 5px;
-        }
-        .gradient {
-          width: 80px;
-          height: 30px;
-          font-weight: 900;
-          color: white;
-          text-align: center;
-          background: linear-gradient(to bottom, grey, black);
-          border: solid 2px white;
-          border-radius: 5px;
-        }
-
-        .left {
-          text-align: left;
-        }
-        .right {
-          float: right;
-        }
-        .center {
-          text-align: center;
-        }
-
-        a {
-          color: black;
-          text-decoration-line: none;
-        }
-    </style>
+    <meta charset="utf-8" />
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Full Width Pics - Start Bootstrap Template</title>
+    <!-- Favicon-->
+<!--    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico" />-->
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/css/home.css" rel="stylesheet" />
 </head>
-
 <body>
-<h2>게시판</h2>
-
-<hr class="hr1" noshade />
-
-<form>
-    <span> ▷ 총 3개의 게시물이 있습니다. </span>
-    <span class="right">
-        <span class="grey" id="strong">SELECT</span>
-        <select>
-          <option value="제목" name="제목">제목</option>
-          <option value="글쓴이" name="글쓴이">글쓴이</option>
-        </select>
-        <input type="text" />
-        <input type="button" name="검색" class="gradient" value="검색" />
-      </span>
-</form>
-
-<br />
-<table>
-    <tr>
-        <th>번호</th>
-        <th>제목</th>
-        <th>글쓴이</th>
-        <th>일시</th>
-        <th>조회수</th>
-    </tr>
-    <tr>
-        <td class="center">1</td>
-        <td class="center">게시글 1 입니다.</td>
-        <td class="center">김준석</td>
-        <td class="center">2022-05-18</td>
-        <td class="center">15</td>
-    </tr>
-    <tr>
-        <td class="center">2</td>
-        <td class="center">게시글 2 입니다.</td>
-        <td class="center">김준석</td>
-        <td class="center">2022-05-18</td>
-        <td class="center">15</td>
-    </tr>
-    <tr>
-        <td class="center">3</td>
-        <td class="center">게시글 3 입니다.</td>
-        <td class="center">김준석</td>
-        <td class="center">2022-05-18</td>
-        <td class="center">15</td>
-    </tr>
-</table>
-
-<div class="center">
-    <a href="https://www.naver.com/">◀ 이전</a>
-    <a href="https://www.naver.com/">1</a>
-    <a href="https://www.naver.com/">다음 ▶</a>
+<!-- Responsive navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">Board Membership project</a>
+        <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/boards"
+                    >게시판</a
+                    >
+                </li>
+                <li class="nav-item"><a class="nav-link" href="#!">내 정보</a></li>
+                <li class="nav-item"><a class="nav-link" href="#!">로그아웃</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- Header - set the background image for the header in the line below-->
+<header
+        class="py-5 bg-image-full"
+        style="
+        background-image: url('https://source.unsplash.com/wfh8dDlNFOk/1600x900');
+      "
+>
+    <div class="text-center my-5">
+        <img
+                class="img-fluid rounded-circle mb-4"
+                src="data:image/png;base64,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"
+                alt="..."
+        />
+        <h1 class="text-white fs-3 fw-bolder">대표 이미지</h1>
+        <p class="text-white-50 mb-0">모른척 넘어가 주세요</p>
+    </div>
+</header>
+<!-- Content section-->
+<section class="py-5">
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <!-- <h2>
+                  힘든 공부로 지친 우리들에게 이 사이트가 쉼터가 되었으면 합니다.
+                </h2> -->
+                <br />
+                <p class="lead">
+                    Support your efforts. Do yourself a favor. Coping with
+                    self-control prevent. We combined these two together and combined
+                    their efforts.
+                </p>
+                <p class="mb-0">
+                    당신의 노력을 존중하라. 당신 자신을 존중하라. 자존감은 자제력을
+                    낳는다. 이 둘을 모두 겸비하면, 진정한 힘을 갖게 된다. -
+                    클린트이스트우드 -
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Image element - set the background image for the header in the line below-->
+<div
+        class="py-5 bg-image-full"
+        style="
+        background-image: url('https://source.unsplash.com/4ulffa6qoKA/1200x800');
+      "
+>
+    <!-- Put anything you want here! The spacer below with inline CSS is just for demo purposes!-->
+    <div style="height: 20rem"></div>
 </div>
-
-<span class="right">
-      <input type="button" value="목록" class="greylist" />
-      <input type="button" value="글쓰기" class="gradient" />
-      <input type="button" value="로그아웃" class="gradient" />
-</span>
+<!-- Content section-->
+<section class="py-5">
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <h2>Engaging Background Images</h2>
+                <p class="lead">
+                    The background images used in this template are sourced from
+                    Unsplash and are open source and free to use.
+                </p>
+                <p class="mb-0">
+                    I can't tell you how many people say they were turned off from
+                    science because of a science teacher that completely sucked out
+                    all the inspiration and enthusiasm they had for the course.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Footer-->
+<footer class="py-5 bg-dark">
+    <div class="container">
+        <p class="m-0 text-center text-white">
+            Copyright &copy; Your Website 2023
+        </p>
+    </div>
+</footer>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="/js/homeView.js"></script>
 </body>
 </html>

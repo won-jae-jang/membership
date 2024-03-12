@@ -1,24 +1,24 @@
 package hello.membership.controller;
 
+import hello.membership.controller.dto.MemberDTO;
 import hello.membership.domain.Member;
-import hello.membership.repository.MemberRepository;
+import hello.membership.exception.exception.LoginFailException;
+import hello.membership.exception.exception.UserException;
 import hello.membership.service.LoginService;
 import hello.membership.web.const_.SessionConst;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@Getter
-@Setter
 @Slf4j
 @RequestMapping("/members")
 @RequiredArgsConstructor
@@ -33,19 +33,20 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute @Validated Member member, BindingResult bindingResult, HttpServletRequest request) {
+    @ResponseBody
+    public MemberDTO login(@RequestBody @Validated Member member, BindingResult bindingResult, HttpServletRequest request) {
 
         log.info("login: member.getUsername={}, member.getPassword={}", member.getUsername(), member.getPassword());
 
         if (bindingResult.hasErrors()) {
             log.error("login error={}", bindingResult);
-            return "login";
+            throw new UserException("로그인 입력 오류");
         }
 
         Member loginMember = loginService.login(member.getUsername(), member.getPassword());
         if (loginMember == null) {
-            bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
-            return "redirect:/members/login";
+//            bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+            throw new LoginFailException("로그인 실패");
         }
 
         //로그인 성공 처리
@@ -53,9 +54,12 @@ public class LoginController {
         //세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성
         HttpSession session = request.getSession();
         //세션에 로그인 회원 정보 보관
-        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember.getId());
 
-        return "redirect:/";
+        //성공 메시지 반환
+        MemberDTO loginDTO = new MemberDTO(loginMember);
+
+        return loginDTO;
     }
 
     @PostMapping("/logout")
@@ -68,22 +72,24 @@ public class LoginController {
         return "redirect:/";
     }
 
-    @GetMapping("/join")
+//    @GetMapping("/join")
     public String joinForm() {
         return "join";
     }
 
+    @ResponseBody
     @PostMapping("/join")
-    public String join(@ModelAttribute @Validated Member member, BindingResult bindingResult) {
-        System.out.println("LoginController.save");
+    public MemberDTO join(@RequestBody @Valid Member member, BindingResult bindingResult) {
+        log.info("LoginController.save");
 
         if (bindingResult.hasErrors()) {
             log.error("save error={}", bindingResult);
-            return "join";
+            throw new UserException("잘못된 입력입니다");
         }
 
         log.info("join member.username = {} member.password = {}", member.getUsername(), member.getPassword());
         loginService.save(member);
-        return "redirect:/";
+        MemberDTO memberDTO = new MemberDTO(member);
+        return memberDTO;
     }
 }

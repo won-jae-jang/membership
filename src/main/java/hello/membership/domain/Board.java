@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,5 +49,18 @@ public class Board {
     public void setComment(Comment comment) {
         this.comments.add(comment);
         comment.setBoard(this);
+    }
+
+    /**
+     * 테스트용 equals, hashcode 오버라이드
+     */
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
     }
 }

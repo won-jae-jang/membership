@@ -1,22 +1,61 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="/css/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
-<div class="container__form container--signin">
-    <form action="/members/login" class="form" id="form2" method="post">
-        <h2 class="form__title">로그인</h2>
-        <input type="text" placeholder="이메일" class="input" name="username"/>
-        <input type="password" placeholder="비밀번호" class="input" name="password"/>
-<!--        <a href="#" class="link">비밀번호를 분실하셨나요?</a>-->
-        <button class="btn">로그인</button>
-        <a href="/members/join" class="link">회원가입</a>
-<!--        <button class="btn" onclick="window.location.href = '/members/join';">회원가입</button>-->
-    </form>
+<h2>Board-Membership project #1</h2>
+<div class="container" id="container">
+    <div class="form-container sign-up-container">
+        <form>
+            <h1>계정 생성하기</h1>
+            <div class="social-container">
+                <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <span>or use your email for registration</span>
+            <input type="text" placeholder="아이디" id="joinUsername" />
+            <input type="password" placeholder="비밀번호" id="joinPassword" />
+            <button id="joinBtn">회원가입</button>
+        </form>
+    </div>
+    <div class="form-container sign-in-container">
+        <form action="/members/login">
+            <h1>로그인</h1>
+            <div class="social-container">
+                <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <span>or use your account</span>
+            <input type="text" placeholder="아이디" id="loginUsername" />
+            <input type="password" placeholder="비밀번호" id="loginPassword" />
+            <a href="#">계정을 까먹었나요?</a>
+            <button id="loginBtn">로그인</button>
+        </form>
+    </div>
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1>환영합니다!</h1>
+                <p>저희와 함께 웹 사이트를 즐기시려면 회원가입이 필수입니다.</p>
+                <button class="ghost" id="signIn">로그인 하러 가기</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1>안녕하세요!</h1>
+                <p>회원가입하고 같이 소통해요 😊</p>
+                <button class="ghost" id="signUp">회원가입 하러 가기</button>
+            </div>
+        </div>
+    </div>
 </div>
+<script src="/js/loginAction.js"></script>
+<script src="/js/join.js"></script>
+<script src="/js/login.js"></script>
 </body>
 </html>
