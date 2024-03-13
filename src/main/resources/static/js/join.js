@@ -13,15 +13,18 @@ joinBtn.addEventListener("click", async (event) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ username, password }),
-    });
-
-    if (response.ok) {
-      alert("회원가입에 성공하였습니다");
-      const signInButton = document.getElementById("signIn");
-      signInButton.click();
-    } else {
-      alert("아이디나 비밀번호가 올바른 형태가 아닙니다")
-    }
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.success) {
+          alert("회원가입에 성공하였습니다");
+          const signInButton = document.getElementById("signIn");
+          signInButton.click();
+        } else {
+          alert("아이디나 비밀번호가 올바른 형태가 아닙니다");
+        }
+      });
   } catch (error) {
     alert(error);
   }

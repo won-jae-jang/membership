@@ -1,6 +1,7 @@
 package hello.membership.controller;
 
-import hello.membership.controller.dto.MemberDTO;
+import hello.membership.web.dto.LogoutDTO;
+import hello.membership.web.dto.MemberDTO;
 import hello.membership.domain.Member;
 import hello.membership.exception.exception.LoginFailException;
 import hello.membership.exception.exception.UserException;
@@ -9,9 +10,7 @@ import hello.membership.web.const_.SessionConst;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -29,7 +28,7 @@ public class LoginController {
     @GetMapping("/login")
     public String loginForm() {
         log.info("---- login controller ----");
-        return "login.html";
+        return "login";
     }
 
     @PostMapping("/login")
@@ -56,20 +55,18 @@ public class LoginController {
         //세션에 로그인 회원 정보 보관
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember.getId());
 
-        //성공 메시지 반환
-        MemberDTO loginDTO = new MemberDTO(loginMember);
-
-        return loginDTO;
+        return new MemberDTO();
     }
 
     @PostMapping("/logout")
-    public String logout(HttpServletRequest request) {
+    @ResponseBody
+    public LogoutDTO logout(HttpServletRequest request) {
         //세션 삭제
         HttpSession session = request.getSession(false);
         if (session != null) {
             session.invalidate();
         }
-        return "redirect:/";
+        return new LogoutDTO();
     }
 
 //    @GetMapping("/join")
@@ -89,7 +86,6 @@ public class LoginController {
 
         log.info("join member.username = {} member.password = {}", member.getUsername(), member.getPassword());
         loginService.save(member);
-        MemberDTO memberDTO = new MemberDTO(member);
-        return memberDTO;
+        return new MemberDTO();
     }
 }

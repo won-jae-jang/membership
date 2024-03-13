@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class Board {
      */
     public Board() {
         this.views = 0;
-        this.good_number = 0;
+        this.goodNumber = 0;
     }
 
     @Id @GeneratedValue
@@ -38,7 +38,8 @@ public class Board {
     @NotBlank
     private String content;
     private int views;
-    private int good_number;
+    private int goodNumber;
+    private LocalDateTime date;
 
     //연관관계 메서드
     public void setMember(Member member) {
@@ -50,6 +51,14 @@ public class Board {
         this.comments.add(comment);
         comment.setBoard(this);
     }
+
+    //생성 메서드
+    public static Board createBoard(Member member) {
+        Board board = new Board();
+        board.setMember(member);
+        return board;
+    }
+
 
     /**
      * 테스트용 equals, hashcode 오버라이드

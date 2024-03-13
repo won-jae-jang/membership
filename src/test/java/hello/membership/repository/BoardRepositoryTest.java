@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BoardRepositoryTest {
 
     @Autowired BoardRepository boardRepository;
+    @Autowired MemberRepository memberRepository;
 
     @Test
     void 게시판_저장() throws Exception {
@@ -56,5 +57,28 @@ class BoardRepositoryTest {
         List<Board> boards = boardRepository.findAll();
         assertThat(boards.size()).isEqualTo(2);
         assertThat(boards).contains(board1, board2);
+    }
+
+    @Test
+    void 게시판_회원_조회() throws Exception {
+
+        //given
+        Member member = new Member();
+        member.setUsername("userA");
+        member.setPassword("123");
+        memberRepository.save(member);
+
+        Board board = new Board();
+        board.setTitle("board1");
+        board.setContent("content1");
+        board.setMember(member);
+
+        //when
+        Long saveId = boardRepository.save(board);
+
+        //then
+        Board findBoard = boardRepository.findById(saveId);
+        assertThat(findBoard.getMember().getUsername()).isEqualTo("userA");
+        assertThat(findBoard.getMember().getPassword()).isEqualTo("123");
     }
 }

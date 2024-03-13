@@ -28,4 +28,6 @@ public class BoardRepository {
         return em.createQuery("select b from Board b", Board.class)
                 .getResultList();
     }
+
+
 }
