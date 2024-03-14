@@ -1,6 +1,7 @@
 package hello.membership.exception;
 
 import hello.membership.exception.exception.LoginFailException;
+import hello.membership.exception.exception.NotAuthorizedUserException;
 import hello.membership.exception.exception.UserException;
 import hello.membership.exception.exhandler.ErrorResult;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,13 @@ public class ExControllerAdvice {
     public ErrorResult loginFailExHandle(LoginFailException e) {
         log.info("로그인 실패");
         return new ErrorResult("loginFail", e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ExceptionHandler(NotAuthorizedUserException.class)
+    public ErrorResult notAutorized(NotAuthorizedUserException e) {
+        log.info("권한이 없는 사용자");
+        return new ErrorResult("notAutorized user", e.getMessage());
     }
 
     @ExceptionHandler

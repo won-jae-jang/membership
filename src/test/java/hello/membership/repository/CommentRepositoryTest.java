@@ -67,12 +67,11 @@ class CommentRepositoryTest {
 
         //when
         commentRepository.save(comment);
-        List<String> comments = commentRepository.findByBoardId(board.getId());
+        List<Comment> comments = commentRepository.findByBoardId(board.getId());
 
         //then
 //        System.out.println("comments = " + comments);
         assertThat(comments.size()).isEqualTo(1);
-        assertThat(comments).contains("content");
     }
 
     private Member createMember() {

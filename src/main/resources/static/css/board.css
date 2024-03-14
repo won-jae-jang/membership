@@ -1,10 +1,12 @@
 h2 {
   font-weight: border;
+  text-align: center;
 }
 .hr1 {
   border: 0;
   height: 2px;
-  background: #d3d3d3;
+  /* background: #d3d3d3; */
+  margin-top: 1%;
 }
 .grey {
   color: #727272;

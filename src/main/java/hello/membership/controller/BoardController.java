@@ -1,11 +1,16 @@
 package hello.membership.controller;
 
 import hello.membership.domain.Board;
+import hello.membership.domain.Comment;
 import hello.membership.exception.exception.UserException;
 import hello.membership.service.BoardService;
+import hello.membership.service.CommentService;
 import hello.membership.web.const_.SessionConst;
+import hello.membership.web.dto.AuthorizedDTO;
 import hello.membership.web.dto.BoardDTO;
+import hello.membership.web.dto.UpdateBoardDTO;
 import hello.membership.web.form.BoardForm;
+import hello.membership.web.form.UpdateBoardForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -23,6 +28,7 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
+    private final CommentService commentService;
 
     @GetMapping
     public String mainPage(Model model) {
@@ -30,6 +36,10 @@ public class BoardController {
         model.addAttribute("boards", boards);
         return "board";
     }
+
+    /**
+     * 글 작성 화면 및 로직
+     */
 
     @GetMapping("/write")
     public String writePage() {
@@ -51,6 +61,57 @@ public class BoardController {
         Board board = boardService.save(boardForm, memberId);
         log.info("save board.id={} board.title={} board.content={}", board.getId(), board.getTitle(), board.getContent());
         return new BoardDTO(board.getId());
+    }
+
+    /**
+     * 게시판 화면
+     */
+    @GetMapping("/{boardId}")
+    public String boardPage(@PathVariable Long boardId, Model model) {
+
+        Board board = boardService.findById(boardId);
+        String formatDate = boardService.formatDate(board.getDate());
+        List<Comment> comments = commentService.findBoardComments(boardId);
+
+        model.addAttribute("board", board);
+        model.addAttribute("formatDate", formatDate);
+        model.addAttribute("comments", comments);
+
+        boardService.upView(boardId); //조회수 올리기
+        return "boardDetail";
+    }
+
+    @GetMapping("/update-check-authorized")
+    @ResponseBody
+    public AuthorizedDTO checkUpdateAuthorized(
+            @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Long memberId,
+            @RequestParam(name = "boardId") Long boardId,
+            Model model
+    ) {
+        if (boardService.isAuthorized(memberId, boardId)){
+            return new AuthorizedDTO(true);
+        }
+        return new AuthorizedDTO(false);
+    }
+
+    @GetMapping("/update")
+    public String updateBoardForm(@RequestParam(name = "boardId") Long boardId, Model model) {
+        Board board = boardService.findById(boardId);
+        model.addAttribute("board", board);
+        return "editBoard";
+    }
+
+    @PostMapping("/update/{boardId}")
+    @ResponseBody
+    public UpdateBoardDTO updateBoard(
+            @Validated @RequestBody UpdateBoardForm form, BindingResult bindingResult,
+            @PathVariable(name = "boardId") Long boardId)
+    {
+        if (bindingResult.hasErrors()) {
+            throw new UserException("글 업데이트 사용자 입력 오류");
+        }
+        boardService.updateBoard(form, boardId);
+        return new UpdateBoardDTO();
     }
 
     @GetMapping("/test")

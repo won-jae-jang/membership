@@ -59,6 +59,11 @@ public class Board {
         return board;
     }
 
+    //비즈니스 로직
+    public void upView() {
+        setViews(views += 1);
+    }
+
 
     /**
      * 테스트용 equals, hashcode 오버라이드

@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>게시판</title>
-    <link rel="stylesheet" href="./css/board.css" />
-    <link rel="stylesheet" href="./css/home.css" />
+    <link rel="stylesheet" href="/css/board.css" />
+    <link rel="stylesheet" href="/css/home.css" />
 </head>
 
 <body>
@@ -66,8 +66,8 @@
         <th class="center">조회수</th>
     </tr>
     <tr th:each="board: ${boards}">
-        <td class="center" th:text="${board.id}">번호</td>
-        <td class="center" th:text="${board.title}">제목</td>
+        <td class="center"><a th:href="@{/boards/{id}(id=${board.id})}" th:text="${board.id}">번호</a></td>
+        <td class="center"><a th:href="@{/boards/{id}(id=${board.id})}" th:text="${board.title}">제목</a></td>
         <td class="center" th:text="${board.member.username}">글쓴이</td>
         <td class="center" th:text="${board.date}">일시</td>
         <td class="center" th:text="${board.views}">조회수</td>
@@ -85,6 +85,6 @@
       <input type="button" value="글쓰기" class="gradient" id="writeBtn" />
       <input type="button" value="로그아웃" class="gradient" id="logoutBtn" />
     </span>
-<script src="./js/board.js"></script>
+<script src="/js/board.js"></script>
 </body>
 </html>

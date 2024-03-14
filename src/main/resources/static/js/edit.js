@@ -1,8 +1,7 @@
-const writeBtn = document.getElementById("writeBtn");
-const SERVER_INTERNAL_ERROR = "EX";
+const updateBtn = document.getElementById("updateBtn");
 
-//글 작성
-writeBtn.addEventListener("click", async (event) => {
+//글 업데이트
+updateBtn.addEventListener("click", async (event) => {
   event.preventDefault(); // 기본 동작(페이지 새로고침) 방지
 
   const title = document.getElementById("title").value;
@@ -13,7 +12,10 @@ writeBtn.addEventListener("click", async (event) => {
     return;
   }
 
-  const response = await fetch("/boards/write", {
+  const urlParams = new URLSearchParams(window.location.search);
+  const boardId = urlParams.get("boardId");
+
+  const response = await fetch(`/boards/update/${boardId}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -24,8 +26,8 @@ writeBtn.addEventListener("click", async (event) => {
     .then((data) => {
       console.log(data);
       if (data.success) {
-        location.href = `/boards/${data.boardId}`;
-      } else if (data.code === SERVER_INTERNAL_ERROR) {
+        location.href = `/boards/${boardId}`;
+      } else {
         alert("서버 내부 오류가 발생했습니다.");
       }
     });

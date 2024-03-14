@@ -26,9 +26,9 @@ public class CommentRepository {
         return em.find(Comment.class, commentId);
     }
 
-    public List<String> findByBoardId(Long boardId) {
-        String jpql = "select c.content from Comment c inner join c.board b where b.id = :boardId";
-        return em.createQuery(jpql, String.class)
+    public List<Comment> findByBoardId(Long boardId) {
+        String jpql = "select c from Comment c inner join c.board b where b.id = :boardId";
+        return em.createQuery(jpql, Comment.class)
                 .setParameter("boardId", boardId)
                 .getResultList();
     }
