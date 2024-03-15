@@ -81,4 +81,23 @@ class BoardRepositoryTest {
         assertThat(findBoard.getMember().getUsername()).isEqualTo("userA");
         assertThat(findBoard.getMember().getPassword()).isEqualTo("123");
     }
+
+    @Test
+    void 게시판_삭제() throws Exception {
+
+        //given
+        Board board = new Board();
+        board.setTitle("board1");
+        board.setContent("content1");
+
+        //when
+        Long saveId = boardRepository.save(board);
+
+        //then
+        List<Board> boards = boardRepository.findAll();
+        assertThat(boards.size()).isEqualTo(2); //더미 데이터가 1개 있음
+        boardRepository.deleteById(saveId);
+        List<Board> deleteAfterBoards = boardRepository.findAll();
+        assertThat(deleteAfterBoards.size()).isEqualTo(1);
+    }
 }

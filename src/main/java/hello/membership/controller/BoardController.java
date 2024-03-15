@@ -2,12 +2,14 @@ package hello.membership.controller;
 
 import hello.membership.domain.Board;
 import hello.membership.domain.Comment;
+import hello.membership.exception.exception.NotAuthorizedUserException;
 import hello.membership.exception.exception.UserException;
 import hello.membership.service.BoardService;
 import hello.membership.service.CommentService;
 import hello.membership.web.const_.SessionConst;
 import hello.membership.web.dto.AuthorizedDTO;
 import hello.membership.web.dto.BoardDTO;
+import hello.membership.web.dto.DeleteBoardDTO;
 import hello.membership.web.dto.UpdateBoardDTO;
 import hello.membership.web.form.BoardForm;
 import hello.membership.web.form.UpdateBoardForm;
@@ -112,6 +114,19 @@ public class BoardController {
         }
         boardService.updateBoard(form, boardId);
         return new UpdateBoardDTO();
+    }
+
+    @PostMapping("/delete/{boardId}")
+    @ResponseBody
+    public DeleteBoardDTO deleteBoard(
+        @PathVariable(name = "boardId") Long boardId,
+        @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Long memberId
+    ){
+        if (boardService.isAuthorized(memberId, boardId)){
+            boardService.deleteBoard(boardId);
+            return new DeleteBoardDTO(true, "게시판 삭제 성공");
+        }
+        return new DeleteBoardDTO(false, "게시판 삭제 실패");
     }
 
     @GetMapping("/test")

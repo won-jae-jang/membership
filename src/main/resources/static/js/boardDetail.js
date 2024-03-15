@@ -32,6 +32,8 @@ updateBtn.addEventListener("click", async (event) => {
         console.log(data);
         if (data.authorized) {
           location.href = `/boards/update?boardId=${boardId}`;
+        } else {
+          alert("글을 업데이트 할 권한이 없습니다");
         }
       });
   } catch (error) {}
@@ -39,8 +41,9 @@ updateBtn.addEventListener("click", async (event) => {
 
 //게시판 삭제
 boardRemoveBtn.addEventListener("click", async (event) => {
+  const boardId = findBoardId();
   try {
-    const response = await fetch("/comments", {
+    const response = await fetch(`/boards/delete/${boardId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -50,6 +53,11 @@ boardRemoveBtn.addEventListener("click", async (event) => {
       .then((data) => {
         console.log(data);
         //글 삭제 권한 확인 및 리다이랙트 todo
+        if (data.success) {
+          location.href = "/boards";
+        } else {
+          alert("글을 삭제할 권한이 없습니다");
+        }
       });
   } catch (error) {}
 });
